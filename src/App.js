@@ -1,23 +1,23 @@
-import logo from './logo.svg';
+import React, { useCallback, useMemo, useState } from 'react';
+import Button from "./components/UI/Button/Button";
+import DemoList from "./components/DemoList";
 import './App.css';
 
 function App() {
+  const [listTitle,setListTitle]=useState('My List');
+  const [sortState,setSortState]=useState('ascending');
+  const changeTitleHandler=useCallback(()=>{
+    setListTitle('New Title');
+  },[])
+  const titleHandler=useCallback(()=>{
+    setSortState((prevState)=>prevState==='ascending'?'descending':'ascending')
+  },[])
+  const ListItems=useMemo(()=>[5,3,1,10,9],[]);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <DemoList title={listTitle} items={ListItems} sortState={sortState}/>
+      <Button onClick={changeTitleHandler}>Change List Title</Button>
+      <Button onClick={titleHandler}>{sortState==='ascending'?'Change to Descending Order':'Change to Ascending Order'}</Button>
     </div>
   );
 }
